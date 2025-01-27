@@ -327,17 +327,17 @@ function addLap(lapStr) {
   const cell4 = row.insertCell(3);
   cell1.innerHTML = lapNo;
   if (lapNo == 0) {
-    cell2.innerHTML = "Hole Shot";
+    cell2.innerHTML = "Hole Shot: " + lapStr + "s";
   } else {
-    cell2.innerHTML = lapStr + " s";
+    cell2.innerHTML = lapStr + "s";
   }
   if (lapTimes.length >= 2 && lapNo != 0) {
     last2lapStr = (newLap + lapTimes[lapTimes.length - 1]).toFixed(2);
-    cell3.innerHTML = last2lapStr + " s";
+    cell3.innerHTML = last2lapStr + "s";
   }
   if (lapTimes.length >= 3 && lapNo != 0) {
     last3lapStr = (newLap + lapTimes[lapTimes.length - 2] + lapTimes[lapTimes.length - 1]).toFixed(2);
-    cell4.innerHTML = last3lapStr + " s";
+    cell4.innerHTML = last3lapStr + "s";
   }
 
   switch (announcerSelect.options[announcerSelect.selectedIndex].value) {
@@ -346,26 +346,26 @@ function addLap(lapStr) {
       break;
     case "1lap":
       if (lapNo == 0) {
-        queueSpeak("Старт");
+        queueSpeak(`Hole Shot ${lapStr}`);
       } else {
         const lapNoStr = pilotName + " Круг " + lapNo + ", ";
-        const text = lapNoStr + lapStr.replace(".", ",");
+        const text = lapNoStr + lapStr;
         queueSpeak(text);
       }
       break;
     case "2lap":
       if (lapNo == 0) {
-        queueSpeak("Старт");
+        queueSpeak(`Hole Shot ${lapStr}`);
       } else if (last2lapStr != "") {
-        const text2 = pilotName + " 2 круга " + last2lapStr.replace(".", ",");
+        const text2 = pilotName + " 2 круга " + last2lapStr;
         queueSpeak(text2);
       }
       break;
     case "3lap":
       if (lapNo == 0) {
-        queueSpeak("Старт");
+        queueSpeak(`Hole Shot ${lapStr}`);
       } else if (last3lapStr != "") {
-        const text3 = pilotName + " 3 круга " + last3lapStr.replace(".", ",");
+        const text3 = pilotName + " 3 круга " + last3lapStr;
         queueSpeak(text3);
       }
       break;
