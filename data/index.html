@@ -72,7 +72,8 @@
           <div class="config-item">
             <label for="alarmThreshold">Low Battery Alarm:</label>
             <div class="input-with-value">
-              <span class="val">3.6v</span>
+              <span class="val" id="volt">3.6v</span>
+              (<span class="val" id="bvolt"></span>)
               <input type="range" id="alarmThreshold" step="0.1" min="2.6" max="8.4" value="3.3" oninput="updateAlarmThreshold(this,value)" />
             </div>
           </div>

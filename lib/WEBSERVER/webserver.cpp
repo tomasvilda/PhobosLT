@@ -281,7 +281,7 @@ Battery Voltage:\t%0.1fv";
                  ESP.getChipModel(), ESP.getChipRevision(), ESP.getChipCores(), ESP.getSdkVersion(), ESP.getFlashChipSize(), ESP.getFlashChipSpeed() / 1000000, getCpuFrequencyMhz(),
                  WiFi.localIP().toString().c_str(), WiFi.macAddress().c_str(), configBuf, voltage);
         request->send(200, "text/plain", buf);
-        led->on(200);
+        // led->on(200);
     });
 
     server.on("/timer/start", HTTP_POST, [this](AsyncWebServerRequest *request) {
