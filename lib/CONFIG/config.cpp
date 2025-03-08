@@ -48,7 +48,7 @@ void Config::write(void) {
 
 void Config::toJson(AsyncResponseStream& destination) {
     // Use https://arduinojson.org/v6/assistant to estimate memory
-    DynamicJsonDocument config(256);
+    JsonDocument config;
     config["freq"] = conf.frequency;
     config["minLap"] = conf.minLap;
     config["alarm"] = conf.alarm;
@@ -63,7 +63,7 @@ void Config::toJson(AsyncResponseStream& destination) {
 }
 
 void Config::toJsonString(char* buf) {
-    DynamicJsonDocument config(256);
+    JsonDocument config;
     config["freq"] = conf.frequency;
     config["minLap"] = conf.minLap;
     config["alarm"] = conf.alarm;
