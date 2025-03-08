@@ -155,7 +155,7 @@ void Config::setDefaults(void) {
     conf.version = CONFIG_VERSION | CONFIG_MAGIC;
     conf.frequency = 1111;
     conf.minLap = 100;
-    conf.alarm = 36;
+    conf.alarm = 33;
     conf.announcerType = 2;
     conf.announcerRate = 10;
     conf.enterRssi = 120;
