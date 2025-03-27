@@ -239,6 +239,7 @@ void Webserver::startServices() {
     startLittleFS();
 
     server.on("/", handleRoot);
+    server.on("/generate204", handleRoot);  // handle Andriod phones doing shit to detect if there is 'real' internet and possibly dropping conn.
     server.on("/generate_204", handleRoot);  // handle Andriod phones doing shit to detect if there is 'real' internet and possibly dropping conn.
     server.on("/gen_204", handleRoot);
     server.on("/library/test/success.html", handleRoot);
