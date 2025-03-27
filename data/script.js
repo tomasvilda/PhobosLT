@@ -14,6 +14,8 @@ const pwdInput = document.getElementById("pwd");
 const minLapInput = document.getElementById("minLap");
 const alarmThreshold = document.getElementById("alarmThreshold");
 
+const synth = window.speechSynthesis;
+
 const freqLookup = [
   [5865, 5845, 5825, 5805, 5785, 5765, 5745, 5725],
   [5733, 5752, 5771, 5790, 5809, 5828, 5847, 5866],
@@ -331,26 +333,26 @@ function addLap(lapStr) {
       break;
     case "1lap":
       if (lapNo == 0) {
-        queueSpeak("<p>Hole Shot<p>");
+        queueSpeak("Hole Shot");
       } else {
         const lapNoStr = pilotName + " Lap " + lapNo + ", ";
-        const text = "<p>" + lapNoStr + lapStr.replace(".", ",") + "</p>";
+        const text = lapNoStr + lapStr.replace(".", ",");
         queueSpeak(text);
       }
       break;
     case "2lap":
       if (lapNo == 0) {
-        queueSpeak("<p>Hole Shot<p>");
+        queueSpeak("Hole Shot");
       } else if (last2lapStr != "") {
-        const text2 = "<p>" + pilotName + " 2 laps " + last2lapStr.replace(".", ",") + "</p>";
+        const text2 = pilotName + " 2 laps " + last2lapStr.replace(".", ",");
         queueSpeak(text2);
       }
       break;
     case "3lap":
       if (lapNo == 0) {
-        queueSpeak("<p>Hole Shot<p>");
+        queueSpeak("Hole Shot");
       } else if (last3lapStr != "") {
-        const text3 = "<p>" + pilotName + " 3 laps " + last3lapStr.replace(".", ",") + "</p>";
+        const text3 = pilotName + " 3 laps " + last3lapStr.replace(".", ",");
         queueSpeak(text3);
       }
       break;
@@ -406,10 +408,9 @@ function queueSpeak(obj) {
 
 async function enableAudioLoop() {
   audioEnabled = true;
-  while(audioEnabled) {
+  while (audioEnabled) {
     if (speakObjsQueue.length > 0) {
-      let isSpeakingFlag = $().articulate('isSpeaking');
-      if (!isSpeakingFlag) {
+      if (!synth.speaking) {
         let obj = speakObjsQueue.shift();
         doSpeak(obj);
       }
@@ -427,22 +428,32 @@ function generateAudio() {
   }
 
   const pilotName = pilotNameInput.value;
-  queueSpeak('<div>testing sound for pilot ' + pilotName + '</div>');
-  for (let i = 1; i <= 3; i++) {
-    queueSpeak('<div>' + i + '</div>')
+  queueSpeak('testing sound for pilot ' + pilotName);
+  for (let i = 1; i <= 5; i++) {
+    queueSpeak(i)
   }
 }
 
 function doSpeak(obj) {
-  $(obj).articulate("rate", announcerRate).articulate('speak');
+  const utterThis = new SpeechSynthesisUtterance(obj);
+  utterThis.onend = function (event) {
+    console.log("SpeechSynthesisUtterance.onend");
+  };
+  utterThis.onerror = function (event) {
+    console.error("SpeechSynthesisUtterance.onerror");
+  };
+  utterThis.voice = synth.getVoices()[0];
+  utterThis.pitch = 1;
+  utterThis.rate = announcerRate;
+  synth.speak(utterThis);
 }
 
 async function startRace() {
   //stopRace();
   startRaceButton.disabled = true;
-  queueSpeak('<p>Starting race in less than five</p>');
-  await new Promise((r) => setTimeout(r, 2000));
+  queueSpeak('Starting race in less than five');
   beep(1, 1, "square"); // needed for some reason to make sure we fire the first beep
+  await new Promise((r) => setTimeout(r, 2000));
   beep(100, 440, "square");
   await new Promise((r) => setTimeout(r, 1000));
   beep(100, 440, "square");
@@ -453,7 +464,7 @@ async function startRace() {
 }
 
 function stopRace() {
-  queueSpeak('<p>Race stopped</p>');
+  queueSpeak('Race stopped');
   clearInterval(timerInterval);
   timer.innerHTML = "00:00:00 s";
 
