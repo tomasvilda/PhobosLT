@@ -462,8 +462,12 @@ async function startRace() {
   startRaceButton.disabled = true;
   speakObjsQueue = [];
   queueSpeak('Старт гонки через 5 секунд');
+  // wait for finishing speaking
+  while (audioEnabled && speakObjsQueue.length > 0 && synth.speaking) {
+    await new Promise((r) => setTimeout(r, 100));
+  }  
   beep(1, 1, "square"); // needed for some reason to make sure we fire the first beep
-  await new Promise((r) => setTimeout(r, 5000));
+  await new Promise((r) => setTimeout(r, 3000));
   beep(100, 440, "square");
   await new Promise((r) => setTimeout(r, 1000));
   beep(100, 440, "square");
