@@ -333,26 +333,26 @@ function addLap(lapStr) {
       break;
     case "1lap":
       if (lapNo == 0) {
-        queueSpeak("Hole Shot");
+        queueSpeak("Старт");
       } else {
-        const lapNoStr = pilotName + " Lap " + lapNo + ", ";
+        const lapNoStr = pilotName + " Круг " + lapNo + ", ";
         const text = lapNoStr + lapStr.replace(".", ",");
         queueSpeak(text);
       }
       break;
     case "2lap":
       if (lapNo == 0) {
-        queueSpeak("Hole Shot");
+        queueSpeak("Старт");
       } else if (last2lapStr != "") {
-        const text2 = pilotName + " 2 laps " + last2lapStr.replace(".", ",");
+        const text2 = pilotName + " 2 круга " + last2lapStr.replace(".", ",");
         queueSpeak(text2);
       }
       break;
     case "3lap":
       if (lapNo == 0) {
-        queueSpeak("Hole Shot");
+        queueSpeak("Старт");
       } else if (last3lapStr != "") {
-        const text3 = pilotName + " 3 laps " + last3lapStr.replace(".", ",");
+        const text3 = pilotName + " 3 круга " + last3lapStr.replace(".", ",");
         queueSpeak(text3);
       }
       break;
@@ -428,7 +428,7 @@ function generateAudio() {
   }
 
   const pilotName = pilotNameInput.value;
-  queueSpeak('testing sound for pilot ' + pilotName);
+  queueSpeak('тестирование звука для пилота ' + pilotName);
   for (let i = 1; i <= 5; i++) {
     queueSpeak(i)
   }
@@ -451,7 +451,7 @@ function doSpeak(obj) {
 async function startRace() {
   //stopRace();
   startRaceButton.disabled = true;
-  queueSpeak('Starting race in less than five');
+  queueSpeak('Старт гонки через 5 секунд');
   beep(1, 1, "square"); // needed for some reason to make sure we fire the first beep
   await new Promise((r) => setTimeout(r, 2000));
   beep(100, 440, "square");
@@ -464,7 +464,7 @@ async function startRace() {
 }
 
 function stopRace() {
-  queueSpeak('Race stopped');
+  queueSpeak('Гонка остановлена');
   clearInterval(timerInterval);
   timer.innerHTML = "00:00:00 s";
 
