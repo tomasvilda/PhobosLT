@@ -134,7 +134,7 @@ This section is going to describe the usage and configuration of the timer. The 
 2. Turn on your device and turn on WiFi.
 3. Wait for it to discover a WiFi access point starting with `PhobosLT_xxxx`.
 4. Click on it and type the password: `phoboslt`.
-5. It should connect and open a browser window with the app for you. If it's not happening, open the browser and type `20.0.0.1`.
+5. It should connect and open a browser window with the app for you. If it's not happening, open the browser and type `10.0.0.1`.
 6. Voila!
 
 ![Homepage](assets/plt1.png)

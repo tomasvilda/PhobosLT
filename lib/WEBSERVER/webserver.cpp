@@ -18,7 +18,7 @@ static AsyncEventSource events("/events");
 static const char *wifi_hostname = "plt";
 static const char *wifi_ap_ssid_prefix = "PhobosLT";
 static const char *wifi_ap_password = "phoboslt";
-static const char *wifi_ap_address = "20.0.0.1";
+static const char *wifi_ap_address = "10.0.0.1";
 String wifi_ap_ssid;
 
 void Webserver::init(Config *config, LapTimer *lapTimer, BatteryMonitor *batMonitor, Buzzer *buzzer, Led *l) {
