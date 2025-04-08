@@ -546,3 +546,93 @@ function setBandChannelIndex(freq) {
     }
   }
 }
+
+const wakeLockCheckbox = document.querySelector('#wakeLockCheckbox');
+const fullScreenButton = document.querySelector('#fullScreenButton');
+
+fullScreenButton.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+    fullScreenButton.textContent = 'Leave Full Screen';
+  } else {
+    document.exitFullscreen();
+    fullScreenButton.textContent = 'Enter Full Screen';
+  }
+});
+
+if ('WakeLock' in window && 'request' in window.WakeLock) {
+  let wakeLock = null;
+
+  const requestWakeLock = () => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    window.WakeLock.request('screen', { signal })
+      .catch((e) => {
+        if (e.name === 'AbortError') {
+          wakeLockCheckbox.checked = false;
+          console.log('Wake Lock was aborted');
+        } else {
+          console.error(`${e.name}, ${e.message}`);
+        }
+      });
+    wakeLockCheckbox.checked = true;
+    console.log('Wake Lock is active');
+    return controller;
+  };
+
+  wakeLockCheckbox.addEventListener('change', () => {
+    if (wakeLockCheckbox.checked) {
+      wakeLock = requestWakeLock();
+    } else {
+      wakeLock.abort();
+      wakeLock = null;
+    }
+  });
+
+  const handleVisibilityChange = () => {
+    if (wakeLock !== null && document.visibilityState === 'visible') {
+      wakeLock = requestWakeLock();
+    }
+  };
+
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  document.addEventListener('fullscreenchange', handleVisibilityChange);
+} else if ('wakeLock' in navigator && 'request' in navigator.wakeLock) {
+  let wakeLock = null;
+
+  const requestWakeLock = async () => {
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', (e) => {
+        console.log(e);
+        wakeLockCheckbox.checked = false;
+        console.log('Wake Lock was released');
+      });
+      wakeLockCheckbox.checked = true;
+      console.log('Wake Lock is active');
+    } catch (e) {
+      wakeLockCheckbox.checked = false;
+      console.error(`${e.name}, ${e.message}`);
+    }
+  };
+
+  wakeLockCheckbox.addEventListener('change', () => {
+    if (wakeLockCheckbox.checked) {
+      requestWakeLock();
+    } else {
+      wakeLock.release();
+      wakeLock = null;
+    }
+  });
+
+  const handleVisibilityChange = () => {
+    if (wakeLock !== null && document.visibilityState === 'visible') {
+      requestWakeLock();
+    }
+  };
+
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  document.addEventListener('fullscreenchange', handleVisibilityChange);
+} else {
+  console.log('Wake Lock API not supported.');
+}
