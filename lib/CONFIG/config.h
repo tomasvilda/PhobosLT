@@ -81,6 +81,7 @@ typedef struct {
     char pilotName[21];
     char ssid[33];
     char password[33];
+    bool audioEnabled;
 } laptimer_config_t;
 
 class Config {

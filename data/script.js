@@ -43,6 +43,7 @@ const timer = document.getElementById("timer");
 const startRaceButton = document.getElementById("startRaceButton");
 const stopRaceButton = document.getElementById("stopRaceButton");
 const batteryVoltageDisplay = document.getElementById("bvolt");
+const switchAudioButton = document.getElementById("switchAudioButton");
 
 const rssiBuffer = [];
 var rssiValue = 0;
@@ -88,6 +89,8 @@ onload = function (e) {
       timer.innerHTML = "00:00:00s";
       clearLaps();
       createRssiChart();
+      audioEnabled=config.audioEnabled;
+      updateAudioEnabled();
     });
 };
 
@@ -260,6 +263,7 @@ function saveConfig() {
       name: pilotNameInput.value,
       ssid: ssidInput.value,
       pwd: pwdInput.value,
+      audioEnabled: audioEnabled
     }),
   })
     .then((response) => response.json())
@@ -419,19 +423,26 @@ function queueSpeak(obj) {
   speakObjsQueue.push(obj);
 }
 
-async function enableAudioLoop() {
-  audioEnabled = true;
-  while (audioEnabled) {
-    if (speakObjsQueue.length > 0 && !synth.speaking)
-      doSpeak(speakObjsQueue.shift());
-    await new Promise((r) => setTimeout(r, 100));
-  }
+function updateAudioEnabled () {
+  switchAudioButton.textContent = audioEnabled ? "Disable voice" : "Enable voice";
+  if (!audioEnabled)
+    speakObjsQueue = [];
 }
 
-function disableAudioLoop() {
-  audioEnabled = false;
+function switchAudio() {
+  audioEnabled = !audioEnabled;
+  updateAudioEnabled();
+  saveConfig()
 }
-function generateAudio() {
+
+async function audioLoop() {
+  if (speakObjsQueue.length > 0 && !synth.speaking)
+    doSpeak(speakObjsQueue.shift());
+}
+
+setInterval(audioLoop, 100);
+
+function testAudio() {
   if (!audioEnabled) {
     return;
   }
@@ -465,7 +476,7 @@ async function startRace() {
   // wait for finishing speaking
   while (audioEnabled && speakObjsQueue.length > 0 && synth.speaking) {
     await new Promise((r) => setTimeout(r, 100));
-  }  
+  }
   beep(1, 1, "square"); // needed for some reason to make sure we fire the first beep
   await new Promise((r) => setTimeout(r, 3000));
   beep(100, 440, "square");

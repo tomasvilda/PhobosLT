@@ -59,6 +59,7 @@ void Config::toJson(AsyncResponseStream& destination) {
     config["name"] = conf.pilotName;
     config["ssid"] = conf.ssid;
     config["pwd"] = conf.password;
+    config["audioEnabled"] = conf.audioEnabled;
     serializeJson(config, destination);
 }
 
@@ -74,6 +75,7 @@ void Config::toJsonString(char* buf) {
     config["name"] = conf.pilotName;
     config["ssid"] = conf.ssid;
     config["pwd"] = conf.password;
+    config["audioEnabled"] = conf.audioEnabled;
     serializeJsonPretty(config, buf, 256);
 }
 
@@ -118,6 +120,10 @@ void Config::fromJson(JsonObject source) {
         strlcpy(conf.password, source["pwd"] | "", sizeof(conf.password));
         modified = true;
     }
+    if (source["audioEnabled"] != conf.audioEnabled) {
+        conf.audioEnabled = source["audioEnabled"];
+        modified = true;
+    }
 }
 
 uint16_t Config::getFrequency() {
@@ -160,6 +166,7 @@ void Config::setDefaults(void) {
     conf.announcerRate = 10;
     conf.enterRssi = 120;
     conf.exitRssi = 100;
+    conf.audioEnabled = true;
     strlcpy(conf.ssid, "", sizeof(conf.ssid));
     strlcpy(conf.password, "", sizeof(conf.password));
     strlcpy(conf.pilotName, "", sizeof(conf.pilotName));
