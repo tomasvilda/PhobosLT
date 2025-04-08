@@ -409,12 +409,8 @@ function queueSpeak(obj) {
 async function enableAudioLoop() {
   audioEnabled = true;
   while (audioEnabled) {
-    if (speakObjsQueue.length > 0) {
-      if (!synth.speaking) {
-        let obj = speakObjsQueue.shift();
-        doSpeak(obj);
-      }
-    }
+    if (speakObjsQueue.length > 0 && !synth.speaking)
+      doSpeak(speakObjsQueue.shift());
     await new Promise((r) => setTimeout(r, 100));
   }
 }
@@ -451,9 +447,10 @@ function doSpeak(obj) {
 async function startRace() {
   //stopRace();
   startRaceButton.disabled = true;
+  speakObjsQueue = [];
   queueSpeak('Старт гонки через 5 секунд');
   beep(1, 1, "square"); // needed for some reason to make sure we fire the first beep
-  await new Promise((r) => setTimeout(r, 2000));
+  await new Promise((r) => setTimeout(r, 5000));
   beep(100, 440, "square");
   await new Promise((r) => setTimeout(r, 1000));
   beep(100, 440, "square");
