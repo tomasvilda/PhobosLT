@@ -350,27 +350,27 @@ function addLap(lapStr) {
       break;
     case "1lap":
       if (lapNo == 0) {
-        queueSpeak(`Hole Shot ${lapStr}`);
+        queueSpeak(`${pilotName} hole Shot ${lapStr}`, true);
       } else {
         const lapNoStr = pilotName + " Круг " + lapNo + ", ";
         const text = lapNoStr + lapStr;
-        queueSpeak(text);
+        queueSpeak(text, true);
       }
       break;
     case "2lap":
       if (lapNo == 0) {
-        queueSpeak(`Hole Shot ${lapStr}`);
+        queueSpeak(`${pilotName} hole Shot ${lapStr}`, true);
       } else if (last2lapStr != "") {
         const text2 = pilotName + " 2 круга " + last2lapStr;
-        queueSpeak(text2);
+        queueSpeak(text2, true);
       }
       break;
     case "3lap":
       if (lapNo == 0) {
-        queueSpeak(`Hole Shot ${lapStr}`);
+        queueSpeak(`${pilotName} hole Shot ${lapStr}`, true);
       } else if (last3lapStr != "") {
         const text3 = pilotName + " 3 круга " + last3lapStr;
-        queueSpeak(text3);
+        queueSpeak(text3, true);
       }
       break;
     default:
@@ -416,9 +416,12 @@ function startTimer() {
     .then((response) => console.log("/timer/start:" + JSON.stringify(response)));
 }
 
-function queueSpeak(obj) {
+function queueSpeak(obj, suppressDot = false) {
   if (!audioEnabled) {
     return;
+  }
+  if (suppressDot){
+    obj = obj.replace('.', ' ')
   }
   speakObjsQueue.push(obj);
 }
@@ -474,7 +477,7 @@ async function startRace() {
   speakObjsQueue = [];
   queueSpeak('Старт гонки через 5 секунд');
   // wait for finishing speaking
-  while (audioEnabled && speakObjsQueue.length > 0 && synth.speaking) {
+  while (audioEnabled && (speakObjsQueue.length > 0 || synth.speaking)) {
     await new Promise((r) => setTimeout(r, 100));
   }
   beep(1, 1, "square"); // needed for some reason to make sure we fire the first beep
