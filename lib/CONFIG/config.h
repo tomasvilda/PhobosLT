@@ -51,8 +51,8 @@
 
 #define PIN_LED 2
 #define PIN_VBAT 35
-#define VBAT_SCALE 5 //VBAT_SCALE is a callibrated percentage that we calibrate on
-#define VBAT_ADD 1   //VBAT_ADD is a tenths of a volt drop 
+#define VBAT_SCALE 0 //VBAT_SCALE is a callibrated percentage that we calibrate on
+#define VBAT_ADD 6   //VBAT_ADD is a tenths of a volt drop 
 #define PIN_RX5808_RSSI 33
 #define PIN_RX5808_DATA 19   //CH1
 #define PIN_RX5808_SELECT 22 //CH2
