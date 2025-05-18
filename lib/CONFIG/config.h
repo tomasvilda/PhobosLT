@@ -53,10 +53,10 @@
 #define PIN_VBAT 35
 #define VBAT_SCALE 0 //VBAT_SCALE is a callibrated percentage that we calibrate on
 #define VBAT_ADD 6   //VBAT_ADD is a tenths of a volt drop 
-#define PIN_RX5808_RSSI 33
-#define PIN_RX5808_DATA 19   //CH1
-#define PIN_RX5808_SELECT 22 //CH2
-#define PIN_RX5808_CLOCK 23  //CH3
+#define PIN_RX5808_RSSI 34
+#define PIN_RX5808_DATA 23  //CH1
+#define PIN_RX5808_SELECT 5 //CH2
+#define PIN_RX5808_CLOCK 18 //CH3
 #define PIN_BUZZER 27
 #define BUZZER_INVERTED false
 
