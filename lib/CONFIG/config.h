@@ -31,6 +31,7 @@
 #define PIN_RX5808_CLOCK 4    //CH3
 #define PIN_BUZZER 5
 #define BUZZER_INVERTED false
+#define LED_INVERTED false
 
 //ESP32-S3
 #elif defined(ESP32S3)
@@ -45,6 +46,7 @@
 #define PIN_RX5808_CLOCK 12    //CH3
 #define PIN_BUZZER 3
 #define BUZZER_INVERTED false
+#define LED_INVERTED false
 
 //ESP32
 #else
@@ -59,6 +61,7 @@
 #define PIN_RX5808_CLOCK 18 //CH3
 #define PIN_BUZZER 27
 #define BUZZER_INVERTED false
+#define LED_INVERTED true
 
 #endif
 

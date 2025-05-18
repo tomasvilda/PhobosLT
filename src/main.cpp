@@ -37,7 +37,7 @@ void setup() {
     config.init();
     rx.init();
     buzzer.init(PIN_BUZZER, BUZZER_INVERTED);
-    led.init(PIN_LED, false);
+    led.init(PIN_LED, LED_INVERTED);
     timer.init(&config, &rx, &buzzer, &led);
     monitor.init(PIN_VBAT, VBAT_SCALE, VBAT_ADD, &buzzer, &led);
     ws.init(&config, &timer, &monitor, &buzzer, &led);
