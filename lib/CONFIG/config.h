@@ -49,7 +49,7 @@
 //ESP32
 #else
 
-#define PIN_LED 2
+#define PIN_LED 22
 #define PIN_VBAT 35
 #define VBAT_SCALE 0 //VBAT_SCALE is a callibrated percentage that we calibrate on
 #define VBAT_ADD 6   //VBAT_ADD is a tenths of a volt drop 
